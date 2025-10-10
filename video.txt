@@ -1,0 +1,10 @@
+20190001,Inception,148,scifi
+20190002,The Godfather,175,drama
+20170123,La La Land,128,musical
+20171207,Wonder Woman,141,accion
+20200099,Parasite,132,thriller
+20160150-S02E01,Chapter One: Six Feet Under,50,drama,Six Feet Under,2,1
+20160150-S02E02,Chapter Two: The End?,55,drama,Six Feet Under,2,2
+20180314-S01E01,Pilot,42,drama,Westworld,1,1
+20191716-S03E10,Finale,65,accion,Stranger Things,3,10
+20210408-S01E03,The Heist,48,suspense,Money Heist,1,3
