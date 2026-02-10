@@ -1,5 +1,6 @@
 🎬 Video Collection Management System
 Interactive command-line system for managing and rating a collection of movies and series, developed in C++ using object-oriented programming.
+
 ✨ Features
 
 📋 Complete collection visualization
@@ -44,6 +45,7 @@ Pelicula      Capitulo
     └──────┬──────┘
            |
       Coleccion
+
 Main Classes
 
 Filme: Abstract base class with common attributes (id, title, genre, duration, ratings)
@@ -52,6 +54,7 @@ Capitulo: Inherits from Filme, adds series, season, and episode attributes
 Coleccion: Manages a vector of Filme pointers to store movies and episodes
 
 🚀 Compilation and Execution
+
 Prerequisites
 
 C++ compiler compatible with C++11 or higher (g++, MinGW, MSVC, etc.)
@@ -75,6 +78,7 @@ Enter 2 to rate a film
 Enter 3 to filter by rating
 Enter 4 to filter by genre
 Enter 9 to exit
+
 Usage Examples
 1. Rate a movie:
 
@@ -103,6 +107,7 @@ ID,Title,Duration,Genre,Series,Season,Episode
 Example:
 20190001,Inception,148,scifi
 20160150-S02E01,Chapter One,50,drama,Six Feet Under,2,1
+
 🔧 Technical Highlights
 
 Polymorphism: Use of base class pointers to store derived objects
@@ -112,7 +117,8 @@ Memory management: Use of new for dynamic object creation
 Operator overloading: Custom << operator for object printing
 
 👨‍💻 Author
-Developed as an academic project for Object-Oriented Programming course.
+Developed myself as an academic project for Object-Oriented Programming course.
+
 📝 Notes
 Some code segments were developed with AI assistance (Claude AI) for:
 
