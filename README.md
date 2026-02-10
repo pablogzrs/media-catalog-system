@@ -14,7 +14,8 @@ Interactive command-line system for managing and rating a collection of movies a
 
 Language: C++
 Paradigm: Object-Oriented Programming
-Concepts applied:
+
+🏗️Concepts applied:
 
 Inheritance and polymorphism
 Dynamic memory with pointers
@@ -24,29 +25,7 @@ Dynamic cast for type identification
 File handling (ifstream)
 String manipulation (stringstream)
 
-
-
-📁 Project Structure
-.
-├── main.cpp           # Entry point and main menu
-├── coleccion.h/cpp    # Collection container class
-├── filme.h/cpp        # Abstract base class
-├── pelicula.h/cpp     # Derived class for movies
-├── capitulo.h/cpp     # Derived class for episodes
-└── video.txt          # Input data file
-🏗️ Architecture
-        Filme (abstract class)
-           ↑
-           |
-    ┌──────┴──────┐
-    |             |
-Pelicula      Capitulo
-    |             |
-    └──────┬──────┘
-           |
-      Coleccion
-
-Main Classes
+📁 Main Classes
 
 Filme: Abstract base class with common attributes (id, title, genre, duration, ratings)
 Pelicula: Inherits from Filme, represents individual movies
@@ -55,7 +34,7 @@ Coleccion: Manages a vector of Filme pointers to store movies and episodes
 
 🚀 Compilation and Execution
 
-Prerequisites
+- Prerequisites
 
 C++ compiler compatible with C++11 or higher (g++, MinGW, MSVC, etc.)
 Operating system: Windows, Linux, or macOS
