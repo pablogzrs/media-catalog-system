@@ -148,7 +148,7 @@ ID,Title,Duration,Genre,Series,Season,Episode
 
 ## 👨‍💻 Author
 
-Developed as an academic project for Object-Oriented Programming course.
+Developed myself as an academic project for Object-Oriented Programming course.
 
 ## 📝 Notes
 
