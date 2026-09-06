@@ -1,35 +1,35 @@
 # 🎬 Video Collection Management System
 
-Interactive command-line system for managing and rating a collection of movies and series, developed in C++ using object-oriented programming.
+Interactive command-line system for managing and rating a collection of movies and series episodes, written in C++ with an inheritance-based class hierarchy.
 
 ## ✨ Features
 
-- 📋 Complete collection visualization
-- ⭐ Rating system for movies and episodes (1-5 scale)
+- 📋 Print the full collection
+- ⭐ Rate movies and episodes on a 1–5 scale
 - 🔍 Filter by minimum rating
 - 🎭 Filter by genre
-- 📊 Automatic rating average calculation
-- 🎯 Differentiation between movies and series episodes
+- 📊 Running average per title, displayed to one decimal
+- 🎯 Type-aware filtering between movies and episodes
 
 ## 🛠️ Technologies
 
 - **Language:** C++
 - **Paradigm:** Object-Oriented Programming
 - **Concepts applied:**
-  - Inheritance and polymorphism
-  - Dynamic memory with pointers
-  - Operator overloading
-  - Pure virtual functions
-  - Dynamic cast for type identification
-  - File handling (ifstream)
-  - String manipulation (stringstream)
+  - Inheritance from an abstract base class
+  - Base-class pointers in a `vector<Filme*>`
+  - `dynamic_cast` for runtime type identification
+  - Operator overloading (`<<`)
+  - Pure virtual function
+  - File handling (`ifstream`)
+  - String manipulation (`stringstream`, `stoi`)
 
 ## 📁 Project Structure
 
 ```
 .
-├── main.cpp           # Entry point and main menu
-├── coleccion.h/cpp    # Collection container class
+├── main.cpp           # Entry point and menu loop
+├── coleccion.h/cpp    # Collection container
 ├── filme.h/cpp        # Abstract base class
 ├── pelicula.h/cpp     # Derived class for movies
 ├── capitulo.h/cpp     # Derived class for episodes
@@ -39,9 +39,8 @@ Interactive command-line system for managing and rating a collection of movies a
 ## 🏗️ Architecture
 
 ```
-        Filme (abstract class)
+        Filme (abstract)
            ↑
-           |
     ┌──────┴──────┐
     |             |
 Pelicula      Capitulo
@@ -51,46 +50,32 @@ Pelicula      Capitulo
       Coleccion
 ```
 
-### Main Classes
+- **`Filme`** — abstract base: `id`, `titulo`, `genero`, `duracion`, `vector<int> calificaciones`
+- **`Pelicula`** — inherits from `Filme`, adds nothing
+- **`Capitulo`** — inherits from `Filme`, adds `serie`, `temporada`, `episodio`
+- **`Coleccion`** — owns a `vector<Filme*>` and drives all operations
 
-- **`Filme`**: Abstract base class with common attributes (id, title, genre, duration, ratings)
-- **`Pelicula`**: Inherits from Filme, represents individual movies
-- **`Capitulo`**: Inherits from Filme, adds series, season, and episode attributes
-- **`Coleccion`**: Manages a vector of Filme pointers to store movies and episodes
+### A note on the pure virtual function
+
+`Filme` declares `virtual void funcionInutil() = 0;`. It has no behavior. It exists only to make `Filme` polymorphic so that `dynamic_cast` can be used when filtering by type.
+
+This is a workaround, not a design choice. Because `operator<<` is a `friend` function it cannot be virtual, so printing has to be dispatched externally by type instead of by the objects themselves. The cleaner alternative would be a `virtual void imprimir(ostream&) const = 0;` in `Filme`, with `operator<<` delegating to it — that would give real dynamic dispatch and remove both the dummy function and the `dynamic_cast` calls. It is documented here rather than hidden.
 
 ## 🚀 Compilation and Execution
 
-### Prerequisites
-- C++ compiler compatible with C++11 or higher (g++, MinGW, MSVC, etc.)
-- Operating system: Windows, Linux, or macOS
-
-### Compile the project
-
-**On Windows (MinGW/g++):**
-```bash
-g++ -o coleccion.exe main.cpp coleccion.cpp filme.cpp pelicula.cpp capitulo.cpp
-```
-
-**On Linux/macOS:**
-```bash
-g++ -o coleccion main.cpp coleccion.cpp filme.cpp pelicula.cpp capitulo.cpp
-```
-
-### Run
-
-**Windows:**
-```bash
-coleccion.exe
-```
-
 **Linux/macOS:**
 ```bash
+g++ -o coleccion main.cpp coleccion.cpp filme.cpp pelicula.cpp capitulo.cpp
 ./coleccion
 ```
 
-## 📖 Usage
+**Windows (MinGW/g++):**
+```bash
+g++ -o coleccion.exe main.cpp coleccion.cpp filme.cpp pelicula.cpp capitulo.cpp
+coleccion.exe
+```
 
-When running the program, you'll see the following menu:
+## 📖 Usage
 
 ```
 ****** OPTIONS *****
@@ -101,38 +86,27 @@ Enter 4 to filter by genre
 Enter 9 to exit
 ```
 
-### Usage Examples
+**Rate a title:** option `2` → enter the ID (e.g. `20190001`) → enter a rating from 1 to 5. Values outside that range are rejected.
 
-**1. Rate a movie:**
-- Select option `2`
-- Enter the film ID (e.g., `20190001`)
-- Enter rating from 1 to 5
+**Filter by rating:** option `3` → choose movies (1), episodes (2), or all (3) → enter a minimum rating from 1 to 5.
 
-**2. Filter by rating:**
-- Select option `3`
-- Choose whether to see movies (1), episodes (2), or all (3)
-- Enter minimum rating
-
-**3. Filter by genre:**
-- Select option `4`
-- Choose content type
-- Enter genre (e.g., `drama`, `accion`, `scifi`)
+**Filter by genre:** option `4` → choose content type → enter a genre (e.g. `drama`, `accion`, `scifi`).
 
 ## 📄 Data File Format
 
-The `video.txt` file must follow this format:
+`video.txt` is parsed by field count: 4 fields make a movie, 7 make an episode. Lines with any other count are silently skipped.
 
-**For movies (4 fields):**
+**Movies (4 fields):**
 ```
 ID,Title,Duration,Genre
 ```
 
-**For episodes (7 fields):**
+**Episodes (7 fields):**
 ```
 ID,Title,Duration,Genre,Series,Season,Episode
 ```
 
-### Example:
+**Example:**
 ```
 20190001,Inception,148,scifi
 20160150-S02E01,Chapter One,50,drama,Six Feet Under,2,1
@@ -140,25 +114,20 @@ ID,Title,Duration,Genre,Series,Season,Episode
 
 ## 🔧 Technical Highlights
 
-- **Polymorphism:** Use of base class pointers to store derived objects
-- **Dynamic cast:** Runtime type identification
-- **File reading:** Automatic parser that creates objects based on field count
-- **Memory management:** Use of `new` for dynamic object creation
-- **Operator overloading:** Custom `<<` operator for object printing
+- Base-class pointers storing derived objects
+- `dynamic_cast` for runtime type identification during filtering
+- Field-count parser that chooses the class to instantiate
+- Overloaded `<<` for both `Filme` and `Capitulo`
+- `"SC"` returned as the average for titles with no ratings yet
 
-## 👨‍💻 Author
+## 🎓 Academic Context
 
-Developed myself as an academic project for Object-Oriented Programming course.
+**Course:** Object-Oriented Programming
+**Institution:** ITESM
 
 ## 📝 Notes
 
-Some code segments were developed with AI assistance (Claude AI) for:
-- File parser implementation
-- Decimal number formatting
-- Data type conversion (stod, stoi)
-
-These contributions are documented in comments within the source code.
-
----
-
-⭐ If you found this project useful, consider giving it a star!
+Some segments were developed with AI assistance (Claude), documented in comments in the source:
+- The `cargarArchivoCrearObjetos()` file parser
+- Decimal formatting in `promedio()`
+- Type conversion (`stoi`, `stod`)
